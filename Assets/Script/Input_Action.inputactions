@@ -32,17 +32,6 @@
             ],
             "bindings": [
                 {
-                    "name": "",
-                    "id": "021ec204-bdb6-4664-96e5-00f02175dff7",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "WASD",
                     "id": "7d7fe87e-3ac4-4eeb-8c42-daf2eca3bd4d",
                     "path": "2DVector",
