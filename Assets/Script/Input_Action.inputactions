@@ -1,0 +1,159 @@
+{
+    "name": "Input_Action",
+    "maps": [
+        {
+            "name": "Gameplay",
+            "id": "a8fca1f7-e786-442a-b482-a8af2426874f",
+            "actions": [
+                {
+                    "name": "SetDirection",
+                    "type": "Value",
+                    "id": "3304f9ff-effd-4f70-9801-4db813316b8b",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Skill",
+                    "type": "Button",
+                    "id": "2ab216d1-0d9c-4a3f-b733-ea69cde7d7d2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "22d2afff-8a3a-40da-b194-381d113f4ae5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "021ec204-bdb6-4664-96e5-00f02175dff7",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "WASD",
+                    "id": "7d7fe87e-3ac4-4eeb-8c42-daf2eca3bd4d",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SetDirection",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "1361ee91-d3c2-49b6-a532-c33642077fc9",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "keyboard & mouse",
+                    "action": "SetDirection",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "77dd431e-da03-4e82-a450-3864bcd7584e",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "keyboard & mouse",
+                    "action": "SetDirection",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "1e499114-6a27-4b3c-b8ff-418f48333c37",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "keyboard & mouse",
+                    "action": "SetDirection",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "432e6a16-ba7b-4885-b917-ae9e57b1b747",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "keyboard & mouse",
+                    "action": "SetDirection",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "7adc986a-a428-46e8-8671-f72132aa5d26",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "keyboard & mouse",
+                    "action": "Skill",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Menu",
+            "id": "4094fb16-a6d3-4ec5-a90f-db3b10413f58",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "5396683d-ebd9-4030-9bde-92f637926506",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4d123584-1ff0-42d8-b215-f8f54e7e6006",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "keyboard & mouse",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "keyboard & mouse",
+            "bindingGroup": "keyboard & mouse",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
