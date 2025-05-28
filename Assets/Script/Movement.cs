@@ -1,45 +1,100 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
     private Rigidbody2D body;
     public float speed;
-    private bool grounded;
+    private BoxCollider2D boxCollider;
+    public LayerMask groundlayer;
+    public LayerMask walllayer;
+    private float walljumpCooldown;
+    private float horizontalinput;
+    private int wallSide;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
     }
 
     private void Update()
     {
-        body.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, body.velocity.y);
+        horizontalinput = Input.GetAxis("Horizontal");
+        walljumpCooldown += Time.deltaTime;
 
-        if(Input.GetKey(KeyCode.Space) && grounded)
+        // Apply movement
+        if (walljumpCooldown > 0.2f)
         {
-            jump();
-            
+            body.velocity = new Vector2(horizontalinput * speed, body.velocity.y);
+
+            if (onWall() && !isGrounded())
+            {
+                body.gravityScale = 0;
+                body.velocity = Vector2.zero;
+            }
+            else
+            {
+                body.gravityScale = 3;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                jump();
+            }
         }
+
+        
+        Debug.Log($"onWall: {onWall()}, wallSide: {wallSide}, grounded: {isGrounded()}");
     }
 
     private void jump()
     {
-        body.velocity = new Vector2(body.velocity.x, speed/2);
-        grounded = false;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "Floor")
+        if (isGrounded())
         {
-            grounded = true;
+            body.velocity = new Vector2(body.velocity.x, speed);
+        }
+        else if (onWall() && !isGrounded())
+        {
+            if (horizontalinput == 0)
+            {
+                body.velocity = new Vector2(-wallSide * 10, 0);
+                transform.localScale = new Vector3(wallSide, transform.localScale.y, transform.localScale.z);
+            }
+            else
+            {
+                body.velocity = new Vector2(-wallSide * 3, 6);
+            }
+            walljumpCooldown = 0;
         }
     }
-        
-        
-        
 
+    private bool isGrounded()
+    {
+        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, 0.1f, groundlayer);
+        return raycastHit.collider != null;
+    }
+
+    private bool onWall()
+    {
+        float castDistance = 0.1f;
+
+        RaycastHit2D hitLeft = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size * 0.95f, 0f, Vector2.left, castDistance, walllayer);
+        RaycastHit2D hitRight = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size * 0.95f, 0f, Vector2.right, castDistance, walllayer);
+
+        if (hitLeft.collider != null)
+        {
+            wallSide = -1;
+            return true;
+        }
+        else if (hitRight.collider != null)
+        {
+            wallSide = 1;
+            return true;
+        }
+
+        wallSide = 0;
+        return false;
+    }
 }
