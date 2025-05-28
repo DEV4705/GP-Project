@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpikeTrap : MonoBehaviour
+public class WinZone : MonoBehaviour
 {
-    public Gameover gameOverManager;
+    public WinManager winManager;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            gameOverManager.ShowGameOver();
+            winManager.ShowWinScreen();
         }
     }
-
-
 }

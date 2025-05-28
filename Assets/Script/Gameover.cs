@@ -12,11 +12,6 @@ public class Gameover : MonoBehaviour
         gameOverPanel.SetActive(false);
     }
 
-    private void Update()
-    {
-       
-    }
-
     public void ShowGameOver()
     {
         gameOverPanel.SetActive(true);
