@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
@@ -13,6 +11,15 @@ public class Movement : MonoBehaviour
     private float horizontalinput;
     private int wallSide;
 
+    // Dash variables
+    public float dashSpeed = 20f;
+    public float dashDuration = 0.2f;
+    public float dashCooldown = 1f;
+    private bool isDashing;
+    private float dashTime;
+    private float dashCooldownTimer;
+    private float dashDirection; // ✅ Store direction here
+
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
@@ -23,8 +30,29 @@ public class Movement : MonoBehaviour
     {
         horizontalinput = Input.GetAxis("Horizontal");
         walljumpCooldown += Time.deltaTime;
+        dashCooldownTimer += Time.deltaTime;
 
-        // Apply movement
+        
+        if (isDashing)
+        {
+            body.velocity = new Vector2(dashDirection * dashSpeed, 0);
+            dashTime += Time.deltaTime;
+
+            if (dashTime >= dashDuration)
+            {
+                isDashing = false;
+                body.gravityScale = 3;
+            }
+            return;
+        }
+
+        
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer >= dashCooldown)
+        {
+            StartDash();
+        }
+
+        
         if (walljumpCooldown > 0.2f)
         {
             body.velocity = new Vector2(horizontalinput * speed, body.velocity.y);
@@ -45,8 +73,20 @@ public class Movement : MonoBehaviour
             }
         }
 
-        
         Debug.Log($"onWall: {onWall()}, wallSide: {wallSide}, grounded: {isGrounded()}");
+    }
+
+    private void StartDash()
+    {
+        isDashing = true;
+        dashTime = 0f;
+        dashCooldownTimer = 0f;
+        body.gravityScale = 0;
+
+        
+        dashDirection = horizontalinput != 0 ? Mathf.Sign(horizontalinput) : 1f;
+
+        body.velocity = new Vector2(dashDirection * dashSpeed, 0);
     }
 
     private void jump()
