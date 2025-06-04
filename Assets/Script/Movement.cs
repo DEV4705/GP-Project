@@ -11,19 +11,23 @@ public class Movement : MonoBehaviour
     private float horizontalinput;
     private int wallSide;
 
-    // Dash variables
+    
     public float dashSpeed = 20f;
     public float dashDuration = 0.2f;
     public float dashCooldown = 1f;
     private bool isDashing;
     private float dashTime;
     private float dashCooldownTimer;
-    private float dashDirection; // ✅ Store direction here
+    private float dashDirection;
+
+
+    Animator animator;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -32,7 +36,16 @@ public class Movement : MonoBehaviour
         walljumpCooldown += Time.deltaTime;
         dashCooldownTimer += Time.deltaTime;
 
-        
+        if (horizontalinput > 0.01f)
+        {
+            transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+        }
+        else if (horizontalinput < -0.01f)
+        {
+            transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+        }
+
+
         if (isDashing)
         {
             body.velocity = new Vector2(dashDirection * dashSpeed, 0);
@@ -73,6 +86,14 @@ public class Movement : MonoBehaviour
             }
         }
 
+        float xVelocity = Mathf.Abs(body.velocity.x);
+        float yVelocity = body.velocity.y;
+        bool jumping = !isGrounded();
+
+        animator.SetFloat("xVelocity", xVelocity);
+        animator.SetFloat("yVelocity", yVelocity);
+        animator.SetBool("isJumping", jumping);
+
         Debug.Log($"onWall: {onWall()}, wallSide: {wallSide}, grounded: {isGrounded()}");
     }
 
@@ -94,6 +115,7 @@ public class Movement : MonoBehaviour
         if (isGrounded())
         {
             body.velocity = new Vector2(body.velocity.x, speed);
+            
         }
         else if (onWall() && !isGrounded())
         {
@@ -101,13 +123,16 @@ public class Movement : MonoBehaviour
             {
                 body.velocity = new Vector2(-wallSide * 10, 0);
                 transform.localScale = new Vector3(wallSide, transform.localScale.y, transform.localScale.z);
+                
             }
             else
             {
                 body.velocity = new Vector2(-wallSide * 3, 6);
+                
             }
             walljumpCooldown = 0;
         }
+        animator.SetBool("isJumping", !isGrounded());
     }
 
     private bool isGrounded()
@@ -137,4 +162,5 @@ public class Movement : MonoBehaviour
         wallSide = 0;
         return false;
     }
+
 }
