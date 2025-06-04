@@ -94,7 +94,7 @@ public class Movement : MonoBehaviour
         animator.SetFloat("yVelocity", yVelocity);
         animator.SetBool("isJumping", jumping);
 
-        Debug.Log($"onWall: {onWall()}, wallSide: {wallSide}, grounded: {isGrounded()}");
+        //Debug.Log($"onWall: {onWall()}, wallSide: {wallSide}, grounded: {isGrounded()}");
     }
 
     private void StartDash()

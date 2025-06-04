@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class Gameover : MonoBehaviour
 {
     public GameObject gameOverPanel;
+    
 
     private void Start()
     {
@@ -22,6 +23,14 @@ public class Gameover : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        gameOverPanel.SetActive(false);
+    }
+
+    public void Respawn()
+    {
+        Time.timeScale = 1f;
+        Manager.Instance.RespawnPlayer(gameObject);
+        gameOverPanel.SetActive(false);
     }
 
     public void QuitGame()
